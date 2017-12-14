@@ -4,6 +4,9 @@
 #include <QGridLayout>
 #include <QColor>
 #include <QColorDialog>
+#include <QFileDialog>
+#include <QString>
+#include <QMessageBox>
 #include <iostream>
 using namespace std;
 
@@ -22,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //    QMenu *RountMode = changeMode->addMenu(tr("Round"));
 //    QMenu *OralMode = changeMode->addMenu(tr("Oral"));
 
-    /*以下代码，直到结尾处均被注释，用于测试ui文件，失败时可返回重置。*/
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
@@ -72,6 +74,9 @@ MainWindow::MainWindow(QWidget *parent) :
     colorDialog = new QAction(QIcon(":\\controlIcon\\icon\\调色板.png"), tr("&调色板"), this);
     connect(colorDialog, SIGNAL(triggered(bool)), this, SLOT(SlotChooseColor()));
 
+    saveDialog = new QAction(QIcon(":\\controlIcon\\icon\\保存.png"), tr("&保存"), this);
+    connect(saveDialog, SIGNAL(triggered(bool)), this, SLOT(SlotSaveFig()));
+
     //创建菜单栏
     Graph2DMenu = menuBar()->addMenu(tr("&绘制"));
     Graph2DMenu->addAction(lineMode);
@@ -79,6 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
     Graph2DMenu->addAction(ovalMode);
     Graph2DMenu->addAction(rectMode);
     Graph2DMenu->addAction(mypolygonMode);
+
+    SaveMenu = menuBar()->addMenu(tr("&保存"));
+    SaveMenu->addAction(saveDialog);
 
     MoveMenu = menuBar()->addMenu(tr("&平移"));
     MoveMenu->addAction(moveMode);
@@ -94,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //创建工具栏
     QToolBar *tools=addToolBar(tr("&选择操作"));
+    tools->addAction(saveDialog);
     tools->addAction(lineMode);
     tools->addAction(ovalMode);
     tools->addAction(rectMode);
@@ -176,4 +185,15 @@ void MainWindow::SlotChooseColor(){
         glWidget->setColorBlue(color.blueF());
         glWidget->setColorGreen(color.greenF());
     }
+}
+
+void MainWindow::SlotSaveFig(){
+    QString path = QFileDialog::getSaveFileName(this, tr("&保存图像为"), ".", tr("Figures(*.png/*.jpg)"));
+    if(!path.isEmpty()){
+        QImage image=this->glWidget->grabFrameBuffer();
+        if(image.save(path)==false)
+            QMessageBox::warning(this, tr("失败"), tr("保存动作失败，可重试"));
+    }
+    else
+        QMessageBox::warning(this, tr("路径"), tr("未选择任何有效路径！"));
 }

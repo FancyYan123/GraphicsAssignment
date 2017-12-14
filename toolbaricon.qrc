@@ -11,5 +11,8 @@
         <file>icon/旋转.png</file>
         <file>icon/平移.png</file>
         <file>icon/调色板.png</file>
+        <file>icon/保存.png</file>
+        <file>icon/截取.png</file>
+        <file>icon/填充.png</file>
     </qresource>
 </RCC>

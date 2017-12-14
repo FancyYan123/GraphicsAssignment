@@ -34,6 +34,7 @@ private:
     QMenu *ZoomMenu;
     QMenu *RotateMenu;
     QMenu *ColorMenu;
+    QMenu *SaveMenu;
 
 //    QSlider *rSlider;
 //    QSlider *gSlider;
@@ -44,6 +45,7 @@ private:
     QAction *rotateMode;
 
     QAction *colorDialog;
+    QAction *saveDialog;
 
     QAction *lineMode;
     QAction *ovalMode;
@@ -60,7 +62,9 @@ private slots:
     void SlotRectMode();
     void SlotZoomMode();
     void SlotRotateMode();
+
     void SlotChooseColor();
+    void SlotSaveFig();
 };
 
 #endif // MAINWINDOW_H

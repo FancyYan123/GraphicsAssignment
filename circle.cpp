@@ -60,10 +60,17 @@ void Circle::move(intPoint2D start, intPoint2D end){
     center.y += shiftY;
 }
 
-Graph2D* Circle::mouseSelect(intPoint2D click){
+bool Circle::pointInGraph(intPoint2D click){
     int distX = (click.x-center.x)*(click.x-center.x);
     int distY = (click.y-center.y)*(click.y-center.y);
     if(sqrt(distX+distY)<=r)
+        return true;
+    else
+        return false;
+}
+
+Graph2D* Circle::mouseSelect(intPoint2D click){
+    if(pointInGraph(click))
         return this;
     else
         return NULL;
@@ -79,4 +86,8 @@ void Circle::zoom(intPoint2D origin, intPoint2D scale){
 void Circle::rotate(intPoint2D start, intPoint2D end){
     //现阶段只有绕重心旋转，圆旋转后还是圆
     return;
+}
+
+void Circle::fill(){
+
 }

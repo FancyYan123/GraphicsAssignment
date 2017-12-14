@@ -24,6 +24,7 @@ public:
     void move(intPoint2D start, intPoint2D end);
     void zoom(intPoint2D origin, intPoint2D scale);
     void rotate(intPoint2D start, intPoint2D end);
+    void fill();
 
     Graph2D* mouseSelect(intPoint2D click);
 
@@ -42,6 +43,12 @@ protected:
 
     //利用对称性，由一个点生成其他七个点
     void drawSymPoints(intPoint2D first);
+
+    //判断点是否在图元内部：
+    bool pointInGraph(intPoint2D click);
+
+    //四联通方法填充图元：
+    //void fill4way(intPoint2D point);
 };
 
 #endif // CIRCLE_H

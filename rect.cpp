@@ -90,3 +90,7 @@ void Rect::rotate(intPoint2D start, intPoint2D end){
     rightDown.x = center.x + (rightDown.x-center.x)*COS - (rightDown.y-center.y)*SIN;
     rightDown.y = center.y + (rightDown.x-center.x)*SIN + (rightDown.y-center.y)*COS;
 }
+
+void Rect::fill(){
+
+}

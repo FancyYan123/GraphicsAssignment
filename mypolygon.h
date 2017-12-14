@@ -32,6 +32,8 @@ public:
     void move(intPoint2D start, intPoint2D end);
     void zoom(intPoint2D origin, intPoint2D scale);
     void rotate(intPoint2D start, intPoint2D end);
+    void fill();
+
     Graph2D* mouseSelect(intPoint2D click);
 
     MODE getType(){

@@ -43,6 +43,8 @@ public:
 
     void rotate(intPoint2D start, intPoint2D end);
 
+    void fill();
+
     //判断点(x, y)是否在直线的下方，如果直线垂直，判断是不是在左边
     bool onLeftDown(int x, int y);
 

@@ -184,3 +184,7 @@ void Line::rotate(intPoint2D start, intPoint2D end){
     endPos.x = center.x + (endPos.x-center.x)*COS - (endPos.y-center.y)*SIN;
     endPos.y = center.y + (endPos.x-center.x)*SIN + (endPos.y-center.y)*COS;
 }
+
+void Line::fill(){
+    return;
+}

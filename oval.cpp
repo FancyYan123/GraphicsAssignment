@@ -95,6 +95,10 @@ void Oval::zoom(intPoint2D origin, intPoint2D scale){
     longHalf *= s;
 }
 
+void Oval::fill(){
+
+}
+
 Graph2D* Oval::mouseSelect(intPoint2D click){
 //    int x_max = start.x>end.x?start.x:end.x;
 //    int x_min = start.x<end.x?start.x:end.x;

@@ -47,6 +47,10 @@ void MyPolygon::rotate(intPoint2D start, intPoint2D end){
     return;
 }
 
+void MyPolygon::fill(){
+
+}
+
 Graph2D* MyPolygon::mouseSelect(intPoint2D click){
     if(PolyVertex.size()<3)
         return NULL;
