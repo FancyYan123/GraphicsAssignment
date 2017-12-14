@@ -23,6 +23,7 @@ public:
 
     Line(intPoint2D s, intPoint2D e){ startPos.x = s.x; startPos.y = s.y; endPos.x = e.x; endPos.y = e.y; }
 
+    Line(intPoint2D* s, intPoint2D* e) {startPos.x=s->x;startPos.y=s->y; endPos.x=e->x;endPos.y=e->y;}
     Line(int start_x, int start_y, int end_x, int end_y){
         startPos.x = start_x; startPos.y = start_y;
         endPos.x = end_x; endPos.y = end_y;

@@ -40,7 +40,8 @@ SOURCES += \
     movegraph.cpp \
     zoomgraph.cpp \
     Constant.cpp \
-    rotategraph.cpp
+    rotategraph.cpp \
+    mypolygon.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,11 @@ HEADERS += \
     rect.h \
     movegraph.h \
     zoomgraph.h \
-    rotategraph.h
+    rotategraph.h \
+    mypolygon.h
 
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+    toolbaricon.qrc

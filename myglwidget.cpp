@@ -12,8 +12,7 @@ MyGLWidget::MyGLWidget(QWidget *parent):
     rotator = new rotateGraph();
     //默认模式是画直线
     mode = LINE;
-    r = 1.0;
-    g = b = 0;
+    r = g = b = 0.0;
 }
 
 MyGLWidget::~MyGLWidget(){
@@ -31,6 +30,7 @@ void MyGLWidget::initializeGL()                         //此处开始对OpenGL�
     glEnable(GL_DEPTH_TEST);                            //启用深度测试
     glDepthFunc(GL_LEQUAL);                             //所作深度测试的类型
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  //告诉系统对透视进行修正
+
 }
 
 void MyGLWidget::resizeGL(int w, int h)                 //重置OpenGL窗口的大小
@@ -40,7 +40,7 @@ void MyGLWidget::resizeGL(int w, int h)                 //重置OpenGL窗口的�
     glMatrixMode(GL_PROJECTION);                        //选择投影矩阵
     glLoadIdentity();
     gluOrtho2D(-WINDOWS_WIDTH/2, WINDOWS_WIDTH/2, -WINDOWS_HEIGHT/2, WINDOWS_HEIGHT/2);
-    glColor3d(r, g, b);
+
 
     //设置视口的大小
     /*gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.1, 100.0);
@@ -52,7 +52,9 @@ void MyGLWidget::paintGL()                              //从这里开始进行�
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //清除屏幕和深度缓存
 
-    glColor3b(r, g, b);
+    glColor3f(r, g, b);
+    glPointSize(1.5);
+
     for (list<Graph2D*>::iterator index = view.begin(); index != view.end(); index++){
          (*index)->Draw();
     }
@@ -134,6 +136,20 @@ void MyGLWidget::mousePressEvent(QMouseEvent *mouseEvent){
             temp->setStart(x_real, y_real);
             temp->setEnd(x_real, y_real);
             view.push_back(temp);
+            break;
+        }
+        case MYPOLYGON:
+        {
+            //cout<<"enter mypolygon."<<endl;
+            Graph2D* last = view.back();
+            if(last==NULL || last->getType()!=MYPOLYGON){   //利用了短路求值，最好别这样写
+                Graph2D* temp = new MyPolygon();
+                temp->setStart(x_real, y_real);
+                view.push_back(temp);
+            }
+            else{
+                last->setStart(x_real, y_real);
+            }
             break;
         }
 
@@ -266,8 +282,8 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *mouseEvent){
 }
 
 void MyGLWidget::mouseReleaseEvent(QMouseEvent *mouseEvent){
-    int x_real, y_real;
-    translate(mouseEvent->x(), mouseEvent->y(), x_real, y_real);
+//    int x_real, y_real;
+//    translate(mouseEvent->x(), mouseEvent->y(), x_real, y_real);
     if(mode==MOVEGRAPH)
         mover->move();
     else if(mode==ZOOMGRAPH)

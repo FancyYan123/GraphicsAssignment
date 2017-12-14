@@ -12,6 +12,7 @@
 #include "circle.h"
 #include "oval.h"
 #include "rect.h"
+#include "mypolygon.h"
 
 class MyGLWidget : public QGLWidget
 {
@@ -20,13 +21,6 @@ public:
     explicit MyGLWidget(QWidget *parent=0);
     ~MyGLWidget();
     void changeMode(MODE m){ mode = m; }
-
-signals:
-    void redColor(float r);
-    void greenColor(float g);
-    void blueColor(float b);
-
-public slots:
     void setColorRed(float r)   {this->r=r;}
     void setColorGreen(float g) {this->g=g;}
     void setColorBlue(float b)  {this->b=b;}

@@ -2,6 +2,9 @@
 #include "line.h"
 #include <math.h>
 
+#include<iostream>
+using namespace std;
+
 void Rect::Draw()
 {
     Line Up(leftUp, rightUp);
@@ -66,7 +69,7 @@ Graph2D* Rect::mouseSelect(intPoint2D click){
             Left.onLeftDown(click.x, click.y)!=Right.onLeftDown(click.x, click.y))
         return this;
     else
-        return false;
+        return NULL;
 
 }
 

@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/graphicIcon">
+        <file>icon/直线.png</file>
+        <file>icon/多边形.png</file>
+        <file>icon/圆.png</file>
+        <file>icon/矩形.png</file>
+        <file>icon/椭圆.png</file>
+    </qresource>
+    <qresource prefix="/controlIcon">
+        <file>icon/缩放.png</file>
+        <file>icon/旋转.png</file>
+        <file>icon/平移.png</file>
+        <file>icon/调色板.png</file>
+    </qresource>
+</RCC>

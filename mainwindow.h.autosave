@@ -44,7 +44,7 @@ private:
     QAction *rotateMode;
 
     QAction *colorDialog;
-
+    
     QAction *lineMode;
     QAction *ovalMode;
     QAction *circleMode;
