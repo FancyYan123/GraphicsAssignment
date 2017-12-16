@@ -3,7 +3,7 @@
 #include <assert.h>
 
 //斜率绝对值大于1时：
-void Line::bresenhamk1(double k){
+void Line::bresenhamk1(double k, drawBoardBuffer* drawBoard){
     assert(k > 1 || k<-1);
     int dx = abs(startPos.x - endPos.x);
     int dy = abs(startPos.y - endPos.y);
@@ -24,8 +24,8 @@ void Line::bresenhamk1(double k){
         endy = startPos.y;
     }
 
-    glBegin(GL_POINTS);
-    glVertex2i(x, y);
+//    glBegin(GL_POINTS);
+    drawBoard->drawPoint(x, y);
     while (y < endy){
         y++;
         if (p < 0){
@@ -35,14 +35,14 @@ void Line::bresenhamk1(double k){
             x += step;
             p += delta2;
         }
-        glVertex2i(x, y);
+        drawBoard->drawPoint(x, y);
     }
-    glEnd();
+//  glEnd();
 //	glFlush();
 }
 
 //斜率大于等于-1小于等于1时：
-void Line::bresenhamk2(double k){
+void Line::bresenhamk2(double k, drawBoardBuffer* drawBoard){
 
     assert(k >= -1 && k <= 1);
     int dx = abs(startPos.x - endPos.x);
@@ -64,8 +64,8 @@ void Line::bresenhamk2(double k){
         endx = startPos.x;
     }
 
-    glBegin(GL_POINTS);
-    glVertex2i(x, y);
+    //glBegin(GL_POINTS);
+    drawBoard->drawPoint(x, y);
     while (x < endx){
         x++;
         if (p < 0){
@@ -75,21 +75,21 @@ void Line::bresenhamk2(double k){
             y += step;
             p += delta2;
         }
-        glVertex2i(x, y);
+        drawBoard->drawPoint(x, y);
     }
-    glEnd();
+    //glEnd();
 //	glFlush();
 }
 
 
 
-void Line::Draw(){
+void Line::Draw(drawBoardBuffer* drawBoard){
     if (startPos.x != endPos.x){
         double k = (startPos.y - endPos.y + 0.0) / (startPos.x - endPos.x + 0.0);
         if (fabs(k)>1)
-            bresenhamk1(k);
+            bresenhamk1(k, drawBoard);
         else
-            bresenhamk2(k);
+            bresenhamk2(k, drawBoard);
     }
 
     else if (startPos.x == endPos.x && startPos.y == endPos.y)
@@ -99,12 +99,12 @@ void Line::Draw(){
         int x = startPos.x;
         int y = startPos.y < endPos.y ? startPos.y : endPos.y;
         int endy = startPos.y > endPos.y ? startPos.y : endPos.y;
-        glBegin(GL_POINTS);
+        //glBegin(GL_POINTS);
         while (y < endy){
-            glVertex2i(x, y);
+            drawBoard->drawPoint(x, y);
             y++;
         }
-        glEnd();
+        //glEnd();
     }
 }
 
@@ -185,6 +185,6 @@ void Line::rotate(intPoint2D start, intPoint2D end){
     endPos.y = center.y + (endPos.x-center.x)*SIN + (endPos.y-center.y)*COS;
 }
 
-void Line::fill(){
+void Line::fill(drawBoardBuffer* drawBoard){
     return;
 }

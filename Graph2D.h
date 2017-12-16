@@ -2,12 +2,13 @@
 #define GRAPH2D_H
 
 #include "constant.h"
+#include "drawboardbuffer.h"
 
 class Graph2D
 {
 public:
     virtual ~Graph2D()  { return; }
-    virtual void Draw() = 0;
+    virtual void Draw(drawBoardBuffer* drawBoard) = 0;
     virtual MODE getType() = 0;
 //	virtual void mouseClick(int button, int state, int x, int y) = 0;
 //	virtual void mouseActiveMotion(int x, int y) = 0;
@@ -26,7 +27,7 @@ public:
     virtual void rotate(intPoint2D start, intPoint2D end)=0;
 
     //用于填充：
-    virtual void fill()=0;
+    virtual void fill(drawBoardBuffer* drawBoard)=0;
 
     //用于确定鼠标点击是否选中的函数:
     virtual Graph2D* mouseSelect(intPoint2D click)=0;

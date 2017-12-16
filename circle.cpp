@@ -1,14 +1,14 @@
 #include "circle.h"
 #include <math.h>
 
-void Circle::Draw(){
+void Circle::Draw(drawBoardBuffer* drawBoard){
     intPoint2D pos;
     pos.x=0;
     pos.y=r;
     double p=5.0/4+r;
 
-    glBegin(GL_POINTS);
-    drawSymPoints(pos);
+    //glBegin(GL_POINTS);
+    drawSymPoints(pos, drawBoard);
     while(pos.x<pos.y){
         if(p<0){
             p = p+2*pos.x+3;
@@ -19,9 +19,9 @@ void Circle::Draw(){
             pos.y -= 1;
             pos.x += 1;
         }
-        drawSymPoints(pos);
+        drawSymPoints(pos, drawBoard);
     }
-    glEnd();
+    //glEnd();
 }
 
 void Circle::setStart(int x, int y){
@@ -37,19 +37,19 @@ void Circle::setEnd(int x, int y){
     r = sqrt((start.x-end.x)*(start.x-end.x)+(start.y-end.y)*(start.y-end.y))/2.0;
 }
 
-void Circle::drawSymPoints(intPoint2D first){
+void Circle::drawSymPoints(intPoint2D first, drawBoardBuffer* drawBoard){
     intPoint2D second;
     second.x=first.y;
     second.y=first.x;
-    glVertex2i(first.x+center.x, first.y+center.y);
-    glVertex2i(-first.x+center.x, first.y+center.y);
-    glVertex2i(first.x+center.x, -first.y+center.y);
-    glVertex2i(-first.x+center.x, -first.y+center.y);
+    drawBoard->drawPoint(first.x+center.x, first.y+center.y);
+    drawBoard->drawPoint(-first.x+center.x, first.y+center.y);
+    drawBoard->drawPoint(first.x+center.x, -first.y+center.y);
+    drawBoard->drawPoint(-first.x+center.x, -first.y+center.y);
 
-    glVertex2i(second.x+center.x, second.y+center.y);
-    glVertex2i(-second.x+center.x, second.y+center.y);
-    glVertex2i(second.x+center.x, -second.y+center.y);
-    glVertex2i(-second.x+center.x, -second.y+center.y);
+    drawBoard->drawPoint(second.x+center.x, second.y+center.y);
+    drawBoard->drawPoint(-second.x+center.x, second.y+center.y);
+    drawBoard->drawPoint(second.x+center.x, -second.y+center.y);
+    drawBoard->drawPoint(-second.x+center.x, -second.y+center.y);
 }
 
 void Circle::move(intPoint2D start, intPoint2D end){
@@ -88,6 +88,37 @@ void Circle::rotate(intPoint2D start, intPoint2D end){
     return;
 }
 
-void Circle::fill(){
 
+void Circle::fill(drawBoardBuffer* drawBoard){
+//    fill4way(center.x, center.y, drawBoard);
+    intPoint2D left(center.x, center.y);
+    while(!drawBoard->isPointDrawn(left.x, left.y)){
+        drawBoard->drawPoint(left.x, left.y);
+        intPoint2D Up(left.x, left.y+1);
+        intPoint2D Down(left.x, left.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        left.x--;
+    }
+    intPoint2D right(center.x+1, center.y);
+    while(!drawBoard->isPointDrawn(right.x, right.y)){
+        drawBoard->drawPoint(right.x, right.y);
+        intPoint2D Up(right.x, right.y+1);
+        intPoint2D Down(right.x, right.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        right.x++;
+    }
 }

@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 #include "Graph2D.h"
 #include "Constant.h"
+#include "drawboardbuffer.h"
 using namespace std;
 
 class Line:public Graph2D
@@ -15,8 +16,8 @@ protected:
     GLfloat width;
 
 private:
-    void bresenhamk1(double k);
-    void bresenhamk2(double k);
+    void bresenhamk1(double k, drawBoardBuffer* drawBoard);
+    void bresenhamk2(double k, drawBoardBuffer* drawBoard);
 
 public:
     Line(){ startPos.x = startPos.y = endPos.x = endPos.y = 0; }
@@ -35,7 +36,7 @@ public:
 
     void debug() { cout << startPos.x << " " << startPos.y << " " << endPos.x << " " << endPos.y << endl; }
 
-    void Draw();
+    void Draw(drawBoardBuffer* drawBoard);
 
     void move(intPoint2D start, intPoint2D end);
 
@@ -43,7 +44,7 @@ public:
 
     void rotate(intPoint2D start, intPoint2D end);
 
-    void fill();
+    void fill(drawBoardBuffer* drawBoard);
 
     //判断点(x, y)是否在直线的下方，如果直线垂直，判断是不是在左边
     bool onLeftDown(int x, int y);

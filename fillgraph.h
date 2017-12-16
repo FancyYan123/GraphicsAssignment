@@ -1,6 +1,7 @@
 #ifndef FILLGRAPH_H
 #define FILLGRAPH_H
 #include "Constant.h"
+#include "drawboardbuffer.h"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -19,7 +20,7 @@ public:
     void addObjectToFill(Graph2D* temp);
 
     //填充操作：
-    void fill();
+    void fill(drawBoardBuffer* drawBoard);
 
 protected:
     list<Graph2D*> objectsToFill;

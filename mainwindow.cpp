@@ -71,10 +71,16 @@ MainWindow::MainWindow(QWidget *parent) :
     rotateMode->setShortcut(tr("Ctrl+x"));
     connect(rotateMode, SIGNAL(triggered(bool)), this, SLOT(SlotRotateMode()));
 
+    fillMode = new QAction(QIcon(":\\controlIcon\\icon\\填充.png"), tr("&填充"), this);
+    fillMode->setShortcut(tr("Ctrl+f"));
+    connect(fillMode, SIGNAL(triggered(bool)), this, SLOT(SlotFillMode()));
+
     colorDialog = new QAction(QIcon(":\\controlIcon\\icon\\调色板.png"), tr("&调色板"), this);
+    colorDialog->setShortcut(tr("Ctrl+b"));
     connect(colorDialog, SIGNAL(triggered(bool)), this, SLOT(SlotChooseColor()));
 
     saveDialog = new QAction(QIcon(":\\controlIcon\\icon\\保存.png"), tr("&保存"), this);
+    saveDialog->setShortcut(tr("Ctrl+s"));
     connect(saveDialog, SIGNAL(triggered(bool)), this, SLOT(SlotSaveFig()));
 
     //创建菜单栏
@@ -97,8 +103,12 @@ MainWindow::MainWindow(QWidget *parent) :
     RotateMenu = menuBar()->addMenu(tr("&旋转"));
     RotateMenu->addAction(rotateMode);
 
+    FillMenu = menuBar()->addMenu(tr("&填充"));
+    FillMenu->addAction(fillMode);
+
     ColorMenu = menuBar()->addMenu(tr("&颜色"));
     ColorMenu->addAction(colorDialog);
+
 
     //创建工具栏
     QToolBar *tools=addToolBar(tr("&选择操作"));
@@ -112,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tools->addAction(moveMode);
     tools->addAction(zoomMode);
     tools->addAction(rotateMode);
+    tools->addAction(fillMode);
     tools->addAction(colorDialog);
 
     //布局管理器：
@@ -196,4 +207,10 @@ void MainWindow::SlotSaveFig(){
     }
     else
         QMessageBox::warning(this, tr("路径"), tr("未选择任何有效路径！"));
+}
+
+void MainWindow::SlotFillMode(){
+    if(glWidget!=NULL){
+        glWidget->changeMode(FILLGRAPH);
+    }
 }

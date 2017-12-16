@@ -8,11 +8,13 @@
 #include "movegraph.h"
 #include "zoomgraph.h"
 #include "rotategraph.h"
+#include "fillgraph.h"
 #include "line.h"
 #include "circle.h"
 #include "oval.h"
 #include "rect.h"
 #include "mypolygon.h"
+#include "drawboardbuffer.h"
 
 class MyGLWidget : public QGLWidget
 {
@@ -31,6 +33,9 @@ protected:
     moveGraph* mover;
     zoomGraph* zoomer;
     rotateGraph* rotator;
+    fillGraph* brush;
+    drawBoardBuffer* drawBoard;
+
     float r, g, b;
 
     void initializeGL();

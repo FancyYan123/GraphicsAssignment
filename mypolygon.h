@@ -9,7 +9,8 @@
 class MyPolygon:public Graph2D
 {
 public:
-    MyPolygon(){}
+    MyPolygon(){    innerPoint=NULL;  }
+
     ~MyPolygon(){
         for (list<intPoint2D*>::iterator index = PolyVertex.begin(); index != PolyVertex.end(); index++){
             delete *index;
@@ -28,13 +29,14 @@ public:
         }
     }
 
-    void Draw();
+    void Draw(drawBoardBuffer* drawBoard);
     void move(intPoint2D start, intPoint2D end);
     void zoom(intPoint2D origin, intPoint2D scale);
     void rotate(intPoint2D start, intPoint2D end);
-    void fill();
+    void fill(drawBoardBuffer* drawBoard);
 
     Graph2D* mouseSelect(intPoint2D click);
+
 
     MODE getType(){
         return MYPOLYGON;
@@ -42,6 +44,10 @@ public:
 
 protected:
     list<intPoint2D*> PolyVertex;
+    intPoint2D* innerPoint;
+    bool pointInGraph(intPoint2D click);
+    void fillVerticalLine(int x, drawBoardBuffer* drawBoard);
+    //    void fill4way(int x, int y, drawBoardBuffer* drawBoard);
 };
 
 #endif // POLYGON_H

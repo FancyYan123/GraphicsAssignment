@@ -5,17 +5,17 @@
 #include<iostream>
 using namespace std;
 
-void Rect::Draw()
+void Rect::Draw(drawBoardBuffer* drawBoard)
 {
     Line Up(leftUp, rightUp);
     Line Right(rightUp, rightDown);
     Line Down(rightDown, leftDown);
     Line Left(leftDown, leftUp);
 
-    Up.Draw();
-    Right.Draw();
-    Down.Draw();
-    Left.Draw();
+    Up.Draw(drawBoard);
+    Right.Draw(drawBoard);
+    Down.Draw(drawBoard);
+    Left.Draw(drawBoard);
 
 }
 
@@ -91,6 +91,50 @@ void Rect::rotate(intPoint2D start, intPoint2D end){
     rightDown.y = center.y + (rightDown.x-center.x)*SIN + (rightDown.y-center.y)*COS;
 }
 
-void Rect::fill(){
+//void Rect::fill4way(int x, int y, drawBoardBuffer* drawBoard){
+//    if(!drawBoard->isPointDrawn(x, y)){
+//        drawBoard->drawPoint(x, y);
+////        cout<<x<<" "<<y<<endl;
+//        fill4way(x-1, y, drawBoard);
+//        fill4way(x+1, y, drawBoard);
+//        fill4way(x, y-1, drawBoard);
+//        fill4way(x, y+1, drawBoard);
+//    }
+//}
 
+void Rect::fill(drawBoardBuffer* drawBoard){
+    intPoint2D center((leftUp.x+rightDown.x)/2, (leftUp.y+rightDown.y)/2);
+
+    intPoint2D left(center.x, center.y);
+    while(!drawBoard->isPointDrawn(left.x, left.y)){
+        drawBoard->drawPoint(left.x, left.y);
+        intPoint2D Up(left.x, left.y+1);
+        intPoint2D Down(left.x, left.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        left.x--;
+    }
+
+    intPoint2D right(center.x+1, center.y);
+    while(!drawBoard->isPointDrawn(right.x, right.y)){
+        drawBoard->drawPoint(right.x, right.y);
+        intPoint2D Up(right.x, right.y+1);
+        intPoint2D Down(right.x, right.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        right.x++;
+    }
 }
+

@@ -33,6 +33,7 @@ private:
     QMenu *MoveMenu;
     QMenu *ZoomMenu;
     QMenu *RotateMenu;
+    QMenu *FillMenu;
     QMenu *ColorMenu;
     QMenu *SaveMenu;
 
@@ -43,6 +44,7 @@ private:
     QAction *moveMode;
     QAction *zoomMode;
     QAction *rotateMode;
+    QAction *fillMode;
 
     QAction *colorDialog;
     QAction *saveDialog;
@@ -62,6 +64,7 @@ private slots:
     void SlotRectMode();
     void SlotZoomMode();
     void SlotRotateMode();
+    void SlotFillMode();
 
     void SlotChooseColor();
     void SlotSaveFig();

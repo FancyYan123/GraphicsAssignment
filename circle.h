@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 #include "Graph2D.h"
 #include "Constant.h"
+#include "drawboardbuffer.h"
 using namespace std;
 
 class Circle:public Graph2D
@@ -20,11 +21,12 @@ public:
 
     void setStart(int x, int y);
     void setEnd(int x, int y);
-    void Draw();
+    void Draw(drawBoardBuffer* drawBoard);
     void move(intPoint2D start, intPoint2D end);
     void zoom(intPoint2D origin, intPoint2D scale);
     void rotate(intPoint2D start, intPoint2D end);
-    void fill();
+    //扫描线填充
+    void fill(drawBoardBuffer* drawBoard);
 
     Graph2D* mouseSelect(intPoint2D click);
 
@@ -42,13 +44,13 @@ protected:
     double r;
 
     //利用对称性，由一个点生成其他七个点
-    void drawSymPoints(intPoint2D first);
+    void drawSymPoints(intPoint2D first, drawBoardBuffer* drawBoard);
 
     //判断点是否在图元内部：
     bool pointInGraph(intPoint2D click);
 
     //四联通方法填充图元：
-    //void fill4way(intPoint2D point);
+    //void fill4way(int x, int y, drawBoardBuffer* drawBoard);
 };
 
 #endif // CIRCLE_H

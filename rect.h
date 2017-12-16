@@ -3,6 +3,8 @@
 
 #include "Constant.h"
 #include "line.h"
+#include "Graph2D.h"
+#include "drawboardbuffer.h"
 using namespace std;
 
 class Rect : public Graph2D
@@ -37,13 +39,13 @@ public:
         leftDown.y = rightDown.y;
     }
 
-    void Draw();
+    void Draw(drawBoardBuffer* drawBoard);
 
     void move(intPoint2D start, intPoint2D end);
     void zoom(intPoint2D origin, intPoint2D scale);
 
     void rotate(intPoint2D start, intPoint2D end);
-    void fill();
+    void fill(drawBoardBuffer* drawBoard);
 
     Graph2D* mouseSelect(intPoint2D click);
 
@@ -56,6 +58,7 @@ protected:
     intPoint2D rightUp;
     intPoint2D rightDown;
     intPoint2D leftDown;
+    //void fill4way(int x, int y, drawBoardBuffer* drawBoard);
 };
 
 #endif // RECTANGLE_H

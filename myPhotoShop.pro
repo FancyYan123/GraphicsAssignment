@@ -42,7 +42,8 @@ SOURCES += \
     Constant.cpp \
     rotategraph.cpp \
     mypolygon.cpp \
-    fillgraph.cpp
+    fillgraph.cpp \
+    drawboardbuffer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     zoomgraph.h \
     rotategraph.h \
     mypolygon.h \
-    fillgraph.h
+    fillgraph.h \
+    drawboardbuffer.h
 
 FORMS += \
         mainwindow.ui

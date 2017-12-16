@@ -20,6 +20,7 @@ public:
 
     Graph2D* setObjectToRotate(Graph2D* temp){
         objectToRotate = temp;
+        return objectToRotate;
     }
 
     void setStart(int x, int y){

@@ -10,6 +10,8 @@ MyGLWidget::MyGLWidget(QWidget *parent):
     mover = new moveGraph();
     zoomer = new zoomGraph();
     rotator = new rotateGraph();
+    drawBoard = new drawBoardBuffer();
+    brush = new fillGraph();
     //默认模式是画直线
     mode = LINE;
     r = g = b = 0.0;
@@ -19,6 +21,11 @@ MyGLWidget::~MyGLWidget(){
     for (list<Graph2D*>::iterator index = view.begin(); index != view.end(); index++){
         delete *index;
     }
+    delete mover;
+    delete zoomer;
+    delete rotator;
+    delete brush;
+    delete drawBoard;
 }
 
 void MyGLWidget::initializeGL()                         //此处开始对OpenGL进行所以设置
@@ -55,10 +62,18 @@ void MyGLWidget::paintGL()                              //从这里开始进行�
     glColor3f(r, g, b);
     glPointSize(1.5);
 
+    drawBoard->clear();
     for (list<Graph2D*>::iterator index = view.begin(); index != view.end(); index++){
-         (*index)->Draw();
+         (*index)->Draw(drawBoard);
     }
 
+    //用于填充：
+    brush->fill(drawBoard);
+
+//    cout<<"start filling."<<endl;
+//    drawBoard->fillBack();
+//    cout<<"stop filling."<<endl;
+    drawBoard->draw();
 }
 
 //void MyGLWidget::updateGL(){
@@ -202,7 +217,20 @@ void MyGLWidget::mousePressEvent(QMouseEvent *mouseEvent){
             }
             break;
         }
+        case FILLGRAPH:
+        {
+            intPoint2D temp(x_real, y_real);
+            Graph2D* objectToFill = NULL;
+            for(list<Graph2D*>::iterator index=view.begin(); index!=view.end(); index++){
+                objectToFill = (*index)->mouseSelect(temp);
+                if(objectToFill!=NULL){
+                    brush->addObjectToFill(objectToFill);
+                    break;
+                }
+            }
 
+            break;
+        }
         default: return;
         }
 
@@ -214,6 +242,7 @@ void MyGLWidget::mousePressEvent(QMouseEvent *mouseEvent){
         mover->setObjectToMove(NULL);
         zoomer->setObjectToZoom(NULL);
         rotator->setObjectToRotate(NULL);
+        brush->clearAllGraph();
 
         while(view.size()!=0){
             Graph2D* temp=view.back();

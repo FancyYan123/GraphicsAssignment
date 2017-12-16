@@ -11,9 +11,9 @@ void fillGraph::addObjectToFill(Graph2D* temp){
     objectsToFill.push_back(temp);
 }
 
-void fillGraph::fill(){
+void fillGraph::fill(drawBoardBuffer* drawBoard){
     for(list<Graph2D*>::iterator index=objectsToFill.begin(); index!=objectsToFill.end(); index++){
-        (*index)->fill();
+        (*index)->fill(drawBoard);
     }
 }
 

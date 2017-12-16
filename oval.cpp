@@ -1,18 +1,18 @@
 #include "oval.h"
 #include <math.h>
 
-void Oval::drawSymPoint(intPoint2D first){
+void Oval::drawSymPoint(intPoint2D first, drawBoardBuffer* drawBoard){
     if(horizontalFocus){
-        glVertex2i(first.x+center.x, first.y+center.y);
-        glVertex2i(-first.x+center.x, first.y+center.y);
-        glVertex2i(first.x+center.x, -first.y+center.y);
-        glVertex2i(-first.x+center.x, -first.y+center.y);
+        drawBoard->drawPoint(first.x+center.x, first.y+center.y);
+        drawBoard->drawPoint(-first.x+center.x, first.y+center.y);
+        drawBoard->drawPoint(first.x+center.x, -first.y+center.y);
+        drawBoard->drawPoint(-first.x+center.x, -first.y+center.y);
     }
     else{
-        glVertex2i(first.y+center.x, first.x+center.y);
-        glVertex2i(-first.y+center.x, first.x+center.y);
-        glVertex2i(first.y+center.x, -first.x+center.y);
-        glVertex2i(-first.y+center.x, -first.x+center.y);
+        drawBoard->drawPoint(first.y+center.x, first.x+center.y);
+        drawBoard->drawPoint(-first.y+center.x, first.x+center.y);
+        drawBoard->drawPoint(first.y+center.x, -first.x+center.y);
+        drawBoard->drawPoint(-first.y+center.x, -first.x+center.y);
     }
 }
 
@@ -34,12 +34,12 @@ void Oval::setEnd(int x, int y){
     horizontalFocus = dist1>=dist2?true:false;
 }
 
-void Oval::Draw(){
+void Oval::Draw(drawBoardBuffer* drawBoard){
 
         intPoint2D temp(0, shortHalf);
         double p1=pow(shortHalf, 2.0)-pow(longHalf, 2.0)*shortHalf+pow(longHalf, 2.0)/4;
         glBegin(GL_POINTS);
-        drawSymPoint(temp);
+        drawSymPoint(temp, drawBoard);
 
         //int count1=0, count2=0;
         //切记这里不能写小于等于，因为初始化的时候shortHalf和LongHalf都是0，会有死循环
@@ -54,7 +54,7 @@ void Oval::Draw(){
                 temp.x += 1;
                 temp.y -= 1;
             }
-            drawSymPoint(temp);
+            drawSymPoint(temp, drawBoard);
         }
         //cout<<count1<<" "<<count2<<endl;
 
@@ -71,7 +71,7 @@ void Oval::Draw(){
                 temp.y-=1;
                 //cout<<2<<endl;
             }
-            drawSymPoint(temp);
+            drawSymPoint(temp, drawBoard);
         }
         glEnd();
 
@@ -95,8 +95,48 @@ void Oval::zoom(intPoint2D origin, intPoint2D scale){
     longHalf *= s;
 }
 
-void Oval::fill(){
+//void Oval::fill4way(int x, int y, drawBoardBuffer* drawBoard){
+//    if(!drawBoard->isPointDrawn(x, y)){
+//        drawBoard->drawPoint(x, y);
+//        fill4way(x-1, y, drawBoard);
+//        fill4way(x+1, y, drawBoard);
+//        fill4way(x, y-1, drawBoard);
+//        fill4way(x, y+1, drawBoard);
+//    }
+//}
 
+void Oval::fill(drawBoardBuffer* drawBoard){
+//    fill4way(center.x, center.y, drawBoard);
+    intPoint2D left(center.x, center.y);
+    while(!drawBoard->isPointDrawn(left.x, left.y)){
+        drawBoard->drawPoint(left.x, left.y);
+        intPoint2D Up(left.x, left.y+1);
+        intPoint2D Down(left.x, left.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        left.x--;
+    }
+    intPoint2D right(center.x+1, center.y);
+    while(!drawBoard->isPointDrawn(right.x, right.y)){
+        drawBoard->drawPoint(right.x, right.y);
+        intPoint2D Up(right.x, right.y+1);
+        intPoint2D Down(right.x, right.y-1);
+        while(!drawBoard->isPointDrawn(Up.x, Up.y)){
+            drawBoard->drawPoint(Up.x, Up.y);
+            Up.y++;
+        }
+        while(!drawBoard->isPointDrawn(Down.x, Down.y)){
+            drawBoard->drawPoint(Down.x, Down.y);
+            Down.y--;
+        }
+        right.x++;
+    }
 }
 
 Graph2D* Oval::mouseSelect(intPoint2D click){
